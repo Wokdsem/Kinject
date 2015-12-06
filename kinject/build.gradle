@@ -1,5 +1,50 @@
+plugins {
+    id "com.jfrog.bintray" version "1.4"
+}
 apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+def versionName = "0.1.0"
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+}
+
+
+publishing {
+    publications {
+        KPublication(MavenPublication) {
+            artifacts {
+                groupId 'com.wokdsem.kinject'
+                artifactId 'kinject'
+                version versionName
+                from components.java
+                artifact sourcesJar
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    publications = ['KPublication']
+    pkg {
+        repo = 'maven'
+        name = 'kinject'
+        desc = '.'
+        labels = ['java', 'android']
+        licenses = ['Apache-2.0']
+        websiteUrl = 'http://wokdsem.github.io/Kinject/'
+        vcsUrl = 'https://github.com/Wokdsem/Kinject'
+        issueTrackerUrl = 'https://github.com/Wokdsem/Kinject/issues'
+        version {
+            name = versionName + '-Release'
+        }
+    }
 }
