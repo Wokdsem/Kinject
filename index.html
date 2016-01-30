@@ -43,6 +43,36 @@
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
+<ul>
+<li>
+<p><strong><em>Status</em></strong></p>
+
+<ul>
+<li>
+<em>Release version:</em> <strong>x.x.x</strong>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><em>Download</em></strong></p>
+
+<ul>
+<li><p>You will need to include the <code>kinject-${kinject.version}.jar</code> in your application's runtime.</p></li>
+<li><p>In order to activate code generation, you will need to include <code>kinject-compiler-${kinject.version].jar</code> in your build at compile time. </p></li>
+<li>
+<p>In a gradle project, include the <code>kinject</code> artifact in the dependencies section of your <code>build.gradle</code> and the <code>kinject-compiler</code> artifact as <code>provided</code> dependency:  </p>
+
+<div class="highlight highlight-source-groovy"><pre>    dependencies {
+      compile  <span class="pl-s"><span class="pl-pds">'</span>com.wokdsem.kinject:kinject:${kinject.version}<span class="pl-pds">'</span></span>
+      provided <span class="pl-s"><span class="pl-pds">'</span>com.wokdsem.kinject:kinject-compiler:${kinject.version}<span class="pl-pds">'</span></span>
+    }</pre></div>
+</li>
+<li>You can also find downloadable <em>.jars</em> on <a href="">jCenter.</a>
+</li>
+</ul>
+</li>
+</ul>
+
 <h3>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
 
