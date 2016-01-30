@@ -3,7 +3,7 @@
 # Kinject
 
 A fast dependency injector for Android and Java.  
-For Kinject\'s main documentation, please see [the website.](http://wokdsem.github.io/Kinject/)
+For Kinject's main documentation, please see [the website.](http://wokdsem.github.io/Kinject/)
  
 ## Installation
 
@@ -20,7 +20,7 @@ In a gradle project, include the `kinject` artifact in the dependencies section 
 
 ```groovy
 dependencies {
-  compile 'com.wokdsem.kinject:kinject:${kinject.version}'  
+  compile  'com.wokdsem.kinject:kinject:${kinject.version}'
   provided 'com.wokdsem.kinject:kinject-compiler:${kinject.version}'
 }
 ```
