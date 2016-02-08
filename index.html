@@ -123,15 +123,25 @@ heater <span class="pl-k">=</span> injector<span class="pl-k">.</span><span clas
 <p><strong><em>Aditional features</em></strong></p>
 
 <ul>
-<li>Singleton. ...</li>
+<li>
+<strong>Singleton</strong> You can set <code>singleton = true</code> in <code>@Provides</code> annotation, so the graph will use a single instance of the dependency for all of its clients. </li>
 </ul>
 
-<pre><code></code></pre>
+<div class="highlight highlight-source-java"><pre>@Provides(singleton <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+<span class="pl-k">public</span> <span class="pl-smi">Heater</span> provideHeater() {
+  <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">ElectricalHeater</span>();
+}</pre></div>
+
 <ul>
-<li>Qualifiers. ...</li>
+<li>
+<strong>Named</strong> When the type isn't enought to identify a dependency, you can set <code>named</code> field in <code>@Provides</code> annotation.
+By default, all dependencies have an empty named value. </li>
 </ul>
 
-<pre><code></code></pre>
+<div class="highlight highlight-source-java"><pre>@Provides(named <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Application<span class="pl-pds">"</span></span>)
+<span class="pl-k">public</span> <span class="pl-smi">Context</span> provideApplicationContext() {
+  <span class="pl-k">return</span> appContext;
+}</pre></div>
 </li>
 </ul>
 
