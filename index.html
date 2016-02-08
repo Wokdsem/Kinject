@@ -92,34 +92,33 @@ For example, <code>provideHeater()</code> is invoked whenever a <code>Heater</co
 
   }</pre></div>
 </li>
-<li><p><strong><em>Building the Graph</em></strong></p></li>
-</ul>
+<li>
+<p><strong><em>Building the Graph</em></strong></p>
 
 <p>Before you can inject dependencies, you must define and load a <em>graph</em>. You can understand a <em>graph</em> as a set of injectables dependencies (defined by <code>@Provides</code> annotation) at the same time, linked to other dependencies.<br>
 In code, you have to set the graph root <code>@Module</code> annotation as <code>completed = true</code>.</p>
 
-<div class="highlight highlight-source-java"><pre>  @Module(completed <span class="pl-k">=</span> <span class="pl-c1">true</span>)
-  <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CoffeeMakerModule</span> {
-  }</pre></div>
+<div class="highlight highlight-source-java"><pre>@Module(completed <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CoffeeMakerModule</span> {
+}</pre></div>
 
 <p>You can lean on <code>@Includes</code> annotation to define more flexible graphs. With <code>@Includes</code> you can define modules componses by other modules. Each dependency defined in the included module will be part of the final graph. </p>
 
-<div class="highlight highlight-source-java"><pre>  @Module(completed <span class="pl-k">=</span> <span class="pl-c1">true</span>)
-  <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CoffeeMakerModule</span> {
+<div class="highlight highlight-source-java"><pre>@Module(completed <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CoffeeMakerModule</span> {
 
-    <span class="pl-k">@Included</span>
-    <span class="pl-k">public</span> <span class="pl-smi">HeaterModule</span> <span class="pl-en">includeHeaterModule</span>() {
-      <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">HeaterModule</span>();
-    }
+  <span class="pl-k">@Includes</span>
+  <span class="pl-k">public</span> <span class="pl-smi">HeaterModule</span> <span class="pl-en">includeHeaterModule</span>() {
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">HeaterModule</span>();
+  }
 
-  }</pre></div>
+}</pre></div>
 
 <p>Now, you can initialize your injector and request dependencies. </p>
 
-<div class="highlight highlight-source-java"><pre>  injector <span class="pl-k">=</span> <span class="pl-smi">Kinject</span><span class="pl-k">.</span><span class="pl-k">?</span>();
-  heater <span class="pl-k">=</span> injector<span class="pl-k">.</span><span class="pl-k">?</span>();</pre></div>
-
-<ul>
+<div class="highlight highlight-source-java"><pre>injector <span class="pl-k">=</span> <span class="pl-smi">Kinject</span><span class="pl-k">.</span><span class="pl-k">?</span>();
+heater <span class="pl-k">=</span> injector<span class="pl-k">.</span><span class="pl-k">?</span>();</pre></div>
+</li>
 <li>
 <p><strong><em>Aditional features</em></strong></p>
 
