@@ -146,6 +146,26 @@ By default, all dependencies have an empty named value. </li>
 </ul>
 
 <h3>
+<a id="compile-time" class="anchor" href="#compile-time" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile-Time</h3>
+
+<ul>
+<li>
+<p><strong><em>Validation</em></strong> </p>
+
+<p>The Kinject annotation processor throws a compiler error if any graph has an invalid state. 
+When compiling it, <code>javac</code> rejects something like:</p>
+
+<pre><code>[ERROR] 
+</code></pre>
+</li>
+<li>
+<p><strong><em>Code Generation</em></strong> </p>
+
+<p>Kinject annotation processor generates source files with names ended like <code>*Adapter.java</code> or <code>*Mapper.java</code>. These files are Kinject implementation details and you shouldn't use them, although they are usefull when you are debugging an injection. </p>
+</li>
+</ul>
+
+<h3>
 <a id="proguard" class="anchor" href="#proguard" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Proguard</h3>
 
 <ul>
