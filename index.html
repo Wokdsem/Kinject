@@ -59,6 +59,42 @@ recently <a href="http://google.github.io/dagger/">Dagger2</a> are well knowns e
 <h3>
 <a id="using-kinject" class="anchor" href="#using-kinject" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Kinject</h3>
 
+<p>The flow is simple, <strong>define your dependencies and inject them!</strong></p>
+
+<ul>
+<li>
+<p><strong><em>Defining dependencies</em></strong></p>
+
+<p>Use an <code>@Provides</code> annotated method to define a dependency. The method's return type define which dependency it satisfies.<br>
+For example, <code>provideHeater()</code> is invoked whenever a <code>Heater</code> is required:</p>
+
+<div class="highlight highlight-source-java"><pre>  @<span class="pl-smi">Provides</span>
+  <span class="pl-k">public</span> <span class="pl-smi">Heater</span> provideHeater() {
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">EletricalHeater</span>();
+  }</pre></div>
+
+<p>Is possible for <code>@Provides</code> methods to have dependencies of their own. </p>
+
+<div class="highlight highlight-source-java"><pre>  @<span class="pl-smi">Provides</span>
+  <span class="pl-k">public</span> <span class="pl-smi">Pump</span> providePump(<span class="pl-smi">Heater</span> heater) {
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">Thermosiphon</span>(heater);
+  }</pre></div>
+
+<p>All <code>@Provides</code> methods must belong to a <code>@Module</code> annotated class.</p>
+
+<div class="highlight highlight-source-java"><pre>  @<span class="pl-smi">Module</span>
+  <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HeaterModule</span> {
+
+    <span class="pl-k">@Provides</span>
+    <span class="pl-k">public</span> <span class="pl-smi">Heater</span> <span class="pl-en">provideHeater</span>() {
+      <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">ElectricalHeater</span>();
+    }
+
+  }</pre></div>
+</li>
+<li><p><strong><em>Building the Graph</em></strong></p></li>
+</ul>
+
 <h3>
 <a id="proguard" class="anchor" href="#proguard" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Proguard</h3>
 
