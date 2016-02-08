@@ -117,7 +117,7 @@ In code, you have to set the graph root <code>@Module</code> annotation as <code
 <p>Now, you can initialize your injector and request dependencies. </p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-c">// Create injector</span>
-<span class="pl-smi">CoffeeMakerModule</span> module <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">CoffeeMakerModule</span>(); <span class="pl-c">// Injector configuration module</span>
+<span class="pl-smi">CoffeeMakerModule</span> module <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">CoffeeMakerModule</span>(); <span class="pl-c">// Root graph module</span>
 <span class="pl-smi">Kinject</span> injector <span class="pl-k">=</span> <span class="pl-smi">Kinject</span><span class="pl-k">.</span>instantiate(module);     <span class="pl-c">// Instantiate injector</span>
 
 <span class="pl-c">// Injecting</span>
