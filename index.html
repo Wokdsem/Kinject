@@ -156,10 +156,21 @@ By default, all dependencies have an empty named value. </li>
 <li>
 <p><strong><em>Validation</em></strong> </p>
 
-<p>The Kinject annotation processor throws a compiler error if any graph has an invalid state. 
-When compiling it, <code>javac</code> rejects something like:</p>
+<p>The Kinject annotation processor throws a compiler error if any graph has an invalid state. For example, this completed module doesn't know the <code>Logger</code> dependency.</p>
 
-<pre><code>[ERROR] 
+<div class="highlight highlight-source-java"><pre>@Module(completed <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CoffeeMakerModule</span> {
+
+  <span class="pl-k">@Provides</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-smi">CoffeeMaker</span> <span class="pl-en">provideCoffeeMaker</span>(<span class="pl-smi">Logger</span> <span class="pl-v">logger</span>) {
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">LogCoffeeMaker</span>(logger);
+  }
+
+}</pre></div>
+
+<p>When compiling it, <code>javac</code> rejects something like:</p>
+
+<pre><code>  [[ KINJECT : ERROR ]] Unknown dependency(Logger@) on @Provides(CoffeeMaker@) building graph(CoffeeMakerModule).
 </code></pre>
 </li>
 <li>
