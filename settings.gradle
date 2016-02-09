@@ -1,0 +1,1 @@
+include ':kinject', ':compiler', 'examples:android-simple', 'examples:coffee'
