@@ -5,8 +5,10 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 dependencies {
-    compile 'javax.annotation:jsr250-api:1.0'
+    compile project(":kinject")
+    compile 'com.squareup:javapoet:1.4.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'com.google.testing.compile:compile-testing:0.6'
 }
 
 publishing {
@@ -14,7 +16,7 @@ publishing {
         KPublication(MavenPublication) {
             artifacts {
                 groupId 'com.wokdsem.kinject'
-                artifactId 'kinject'
+                artifactId 'kinject-compiler'
                 version VERSION_NAME
                 from components.java
                 artifact sourcesJar
@@ -34,8 +36,8 @@ bintray {
     publications = ['KPublication']
     pkg {
         repo = 'maven'
-        name = 'kinject'
-        desc = 'KINJECT - Android/Java Dependency Injector.'
+        name = 'kinject-compiler'
+        desc = 'KINJECT - Android/Java Dependency Injector [Compiler - Code generation].'
         labels = ['java', 'android']
         licenses = ['Apache-2.0']
         websiteUrl = 'http://wokdsem.github.io/Kinject/'

@@ -1,5 +1,4 @@
-> ***Alpha release coming soon***
-  
+
 # Kinject
 
 A fast dependency injector for Android and Java.  
@@ -8,7 +7,7 @@ For Kinject's main documentation, please see [the website.](http://wokdsem.githu
 ## Installation
 
 ### Status
-* ***Release version:*** **x.x.x**
+* ***Release version:*** **1.0.0**
 
 ### Download 
 You will need to include the `kinject-${kinject.version}.jar` in your application's runtime.  
@@ -25,7 +24,9 @@ dependencies {
 }
 ```
 
-You can also find downloadable *.jars* on [jCenter.]()
+You can also find downloadable *.jar*s on jCenter.
+[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.0.0/kinject-1.0.0.jar) /
+[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.0.0/kinject-compiler-1.0.0.jar).
 
 ##License
 

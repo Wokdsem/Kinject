@@ -1,0 +1,6 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':kinject'),
+            project(':compiler') // Use as provided scope
+}
