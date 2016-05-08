@@ -62,9 +62,11 @@ class MapperSpec {
 	}
 
 	private static MethodSpec getModuleMapperMethod(Map<String, Integer> moduleMapper) {
+		String param = "module";
 		CodeBlock.Builder switchFlow = CodeBlock.builder()
-				.beginControlFlow("if(module != null)")
-				.beginControlFlow("switch($L.get($L.getClass()))", MAPPER_FIELD, "module");
+				.addStatement("$T key = $L != null ? $L.get($L.getClass()) : null", Integer.class, param, MAPPER_FIELD, param)
+				.beginControlFlow("if(key != null)")
+				.beginControlFlow("switch(key)");
 		for (Map.Entry<String, Integer> entry : moduleMapper.entrySet()) {
 			switchFlow
 					.add("case $L:\n\t", entry.getValue())
@@ -78,7 +80,7 @@ class MapperSpec {
 				.addAnnotation(Override.class)
 				.addModifiers(PUBLIC)
 				.returns(ModuleMapper.class)
-				.addParameter(Object.class, "module")
+				.addParameter(Object.class, param)
 				.addCode(switchBlock)
 				.addStatement("return null")
 				.build();
