@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singleton;
@@ -81,6 +82,21 @@ public class GraphBuilderTest {
 		try {
 			String moduleName = "ModuleName";
 			Collection<Provide> provides = singleton(getFakeProvide("P", "n", singleton(new Dependency("Unknown", "?"))));
+			Module fakeModule = getFakeModule(moduleName, provides, null, true);
+			GraphBuilder.buildGraphs(singletonMap(moduleName, fakeModule));
+			fail();
+		} catch (ProcessorException ignored) {
+		}
+	}
+
+	@Test
+	public void graphBuilder_cycleDependency_throwError() {
+		try {
+			String moduleName = "ModuleName";
+			List<Provide> provides = Arrays.asList(
+					getFakeProvide("P1", "", singleton(new Dependency("P2", ""))),
+					getFakeProvide("P2", "", singleton(new Dependency("P3", ""))),
+					getFakeProvide("P3", "", singleton(new Dependency("P1", ""))));
 			Module fakeModule = getFakeModule(moduleName, provides, null, true);
 			GraphBuilder.buildGraphs(singletonMap(moduleName, fakeModule));
 			fail();

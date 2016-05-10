@@ -7,11 +7,11 @@ For Kinject's main documentation, please see [the website.](http://wokdsem.githu
 ## Installation
 
 ### Status
-* ***Release version:*** **1.0.0**
+* ***Release version:*** **1.1.0**
 
 ### Download 
 You will need to include the `kinject-${kinject.version}.jar` in your application's runtime.  
-In order to activate code generation, you will need to include `kinject-compiler-${kinject.version].jar`
+In order to activate code generation, you will need to include `kinject-compiler-${kinject.version}.jar`
 in your build at compile time. 
 
 In a gradle project, include the `kinject` artifact in the dependencies section of your
@@ -25,8 +25,8 @@ dependencies {
 ```
 
 You can also find downloadable *.jar*s on jCenter.
-[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.0.0/kinject-1.0.0.jar) /
-[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.0.0/kinject-compiler-1.0.0.jar).
+[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.1.0/kinject-1.1.0.jar) /
+[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.1.0/kinject-compiler-1.1.0.jar).
 
 ##License
 
