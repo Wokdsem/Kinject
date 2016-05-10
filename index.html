@@ -188,6 +188,20 @@ By default, all dependencies have an empty named value. </li>
 </ul>
 
 <h3>
+<a id="additional-android-notes" class="anchor" href="#additional-android-notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional android notes</h3>
+
+<ul>
+<li>
+<p>While the new Jack toolchain is fully defined, you need to follow a couple of rules:</p>
+
+<ul>
+<li><p>Define all your injection graphs at the same module (generally  module).</p></li>
+<li><p>Set up <code>android.compileOptions.incremental = false</code> in the build file of the kinject modules host.</p></li>
+</ul>
+</li>
+</ul>
+
+<h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
 <ul>
