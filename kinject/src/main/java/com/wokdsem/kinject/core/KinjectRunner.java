@@ -1,20 +1,28 @@
 package com.wokdsem.kinject.core;
 
-import com.wokdsem.kinject.support.Assertion;
-
 public class KinjectRunner {
 
 	private static final String MAPPER = "kinject.Mapper";
-	private static final String ERR_NULL_MODULE = "Non null module allowed to Kinject instantiation.";
-	private static final String ERR_NON_VALID_MODULE = "[%s] is a non allowed module to Kinject instantiation.";
 
 	private static MapperProvider mapper;
 
 	public static Injector initializeInjector(Object module) {
-		Assertion.assertNonNull(module, ERR_NULL_MODULE);
-		ModuleMapper moduleMapper = getMapper().getModuleMapper(module);
-		Assertion.assertNonNull(moduleMapper, String.format(ERR_NON_VALID_MODULE, module.getClass().getName()));
+		assertModule(module);
+		ModuleMapper moduleMapper = recoverModuleMapper(module);
 		return new KinjectEngine(moduleMapper);
+	}
+
+	private static void assertModule(Object module) {
+		if (module == null) {
+			throw new IllegalArgumentException("Non null module allowed to Kinject instantiation.");
+		}
+	}
+
+	private static ModuleMapper recoverModuleMapper(Object module) {
+		MapperProvider mapper = getMapper();
+		ModuleMapper moduleMapper = mapper.getModuleMapper(module);
+		assertModuleMapper(moduleMapper, module);
+		return moduleMapper;
 	}
 
 	private synchronized static MapperProvider getMapper() {
@@ -28,6 +36,15 @@ public class KinjectRunner {
 			}
 		}
 		return mapper;
+	}
+
+	private static void assertModuleMapper(ModuleMapper moduleMapper, Object module) {
+		if (moduleMapper == null) {
+			Class<?> moduleClass = module.getClass();
+			String moduleName = moduleClass.getName();
+			String errMsg = String.format("[%s] is a non allowed module to Kinject instantiation.", moduleName);
+			throw new IllegalArgumentException(errMsg);
+		}
 	}
 
 }

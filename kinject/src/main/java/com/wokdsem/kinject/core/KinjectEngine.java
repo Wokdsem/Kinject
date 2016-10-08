@@ -12,7 +12,7 @@ class KinjectEngine implements Injector {
 	private final Locker<String> locker;
 	private final ModuleMapper mapper;
 
-	public KinjectEngine(ModuleMapper mapper) {
+	KinjectEngine(ModuleMapper mapper) {
 		binders = new HashMap<>();
 		locker = new Locker<>();
 		this.mapper = mapper;
@@ -35,12 +35,19 @@ class KinjectEngine implements Injector {
 			} catch (InterruptedException ignored) {
 			}
 		}
-		if (tBinder == null) throw new IllegalArgumentException(String.format("Kinject [ERROR] - %s is not a valid injectable.", key));
+		assertBinder(tBinder, key);
 		return (T) tBinder.bind();
 	}
 
 	private static String getInternalKey(Class tClass, String named) {
 		return String.format("%s@%s", tClass.getCanonicalName(), named);
+	}
+
+	private static void assertBinder(Binder binder, String key) {
+		if (binder == null) {
+			String errMsg = String.format("Kinject [ERROR] - %s is not a valid injectable.", key);
+			throw new IllegalArgumentException(errMsg);
+		}
 	}
 
 }

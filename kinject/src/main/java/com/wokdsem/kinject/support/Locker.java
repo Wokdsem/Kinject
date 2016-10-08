@@ -27,7 +27,9 @@ public class Locker<K> {
 	public synchronized void release(K key) {
 		Lock lock = locks.get(key);
 		if (lock != null) {
-			if (lock.release()) locks.remove(key);
+			if (lock.release()) {
+				locks.remove(key);
+			}
 		}
 	}
 
@@ -41,11 +43,15 @@ public class Locker<K> {
 		}
 
 		synchronized void acquire() throws InterruptedException {
-			if (++actives > 1) wait();
+			if (++actives > 1) {
+				wait();
+			}
 		}
 
 		synchronized boolean release() {
-			if (--actives > 0) notify();
+			if (--actives > 0) {
+				notify();
+			}
 			return --subscribers == 0;
 		}
 
