@@ -18,7 +18,7 @@ import java.util.Set;
 
 class GraphBuilder {
 
-	public static Collection<Graph> buildGraphs(Map<String, Module> modules) throws ProcessorException {
+	static Collection<Graph> buildGraphs(Map<String, Module> modules) throws ProcessorException {
 		LinkedList<Graph> graphs = new LinkedList<>();
 		for (Module module : modules.values()) {
 			if (module.isCompleted) {
@@ -38,14 +38,16 @@ class GraphBuilder {
 		for (Provide provide : graph.provides) {
 			List<Dependency> dependencies = provide.dependencies;
 			String provideKey = getKey(provide.canonicalProvideClassName, provide.named);
-			if (dependencies.isEmpty()) safeProvides.add(provideKey);
-			else {
+			if (dependencies.isEmpty()) {
+				safeProvides.add(provideKey);
+			} else {
 				depCounts.put(provideKey, dependencies.size());
 				for (Dependency dependency : dependencies) {
 					String dependencyKey = getKey(dependency.canonicalClassName, dependency.named);
 					getDepends(dependencyKey, dependsOf).add(provideKey);
 					if (!keys.contains(dependencyKey)) {
-						throw new ProcessorException("Unknown dependency(%s) on @Provides(%s) building the graph(%s).", dependencyKey, provideKey, graph.canonicalModuleName);
+						String errMsg = "Unknown dependency(%s) on @Provides(%s) building the graph(%s).";
+						throw new ProcessorException(errMsg, dependencyKey, provideKey, graph.canonicalModuleName);
 					}
 				}
 			}
@@ -55,15 +57,19 @@ class GraphBuilder {
 		}
 	}
 
-	private static boolean isCycleFree(Queue<String> safeProvides, Map<String, Integer> depCounts, Map<String, List<String>> dependsOf) {
+	private static boolean isCycleFree(Queue<String> safeProvides, Map<String, Integer> depCounts,
+									   Map<String, List<String>> dependsOf) {
 		while (!safeProvides.isEmpty()) {
 			String safeProvide = safeProvides.poll();
 			List<String> depends = dependsOf.remove(safeProvide);
 			if (depends != null) {
 				for (String depend : depends) {
 					int count = depCounts.remove(depend) - 1;
-					if (count == 0) safeProvides.add(depend);
-					else depCounts.put(depend, count);
+					if (count == 0) {
+						safeProvides.add(depend);
+					} else {
+						depCounts.put(depend, count);
+					}
 				}
 			}
 		}
@@ -74,7 +80,10 @@ class GraphBuilder {
 		HashSet<String> keys = new HashSet<>();
 		for (Provide provide : graph.provides) {
 			String key = getKey(provide.canonicalProvideClassName, provide.named);
-			if (!keys.add(key)) throw new ProcessorException("Duplicated @Provided(%s) building the graph(%s).", key, graph.canonicalModuleName);
+			if (!keys.add(key)) {
+				String errMsg = "Duplicated @Provided(%s) building the graph(%s).";
+				throw new ProcessorException(errMsg, key, graph.canonicalModuleName);
+			}
 		}
 		return keys;
 	}
@@ -105,7 +114,10 @@ class GraphBuilder {
 					includes.add(include);
 					pendingModules.add(modules.get(include.canonicalModuleName));
 				}
-			} else throw new ProcessorException("Multiple @Includes(%s) building graph to @Module(%s).", pendingModule.canonicalModuleName, module.canonicalModuleName);
+			} else {
+				String errMsg = "Multiple @Includes(%s) building graph to @Module(%s).";
+				throw new ProcessorException(errMsg, pendingModule.canonicalModuleName, module.canonicalModuleName);
+			}
 		}
 		return new Graph(module.canonicalModuleName, includes, provides);
 	}

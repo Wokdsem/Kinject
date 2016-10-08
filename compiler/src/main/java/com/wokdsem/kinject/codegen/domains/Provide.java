@@ -24,8 +24,8 @@ public class Provide {
 	public boolean equals(Object o) {
 		if (o instanceof Provide) {
 			Provide otherProvide = (Provide) o;
-			return canonicalProvideClassName.equals(otherProvide.canonicalProvideClassName)
-					&& named.equals(otherProvide.named);
+			boolean equalNamed = named.equals(otherProvide.named);
+			return equalNamed && canonicalProvideClassName.equals(otherProvide.canonicalProvideClassName);
 		}
 		return false;
 	}

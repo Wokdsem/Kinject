@@ -23,17 +23,20 @@ class MapperSpec {
 	private static final String MAPPER_FIELD = "mapper";
 	private static final String MAPPER_INIT_METHOD = "initMapper";
 
-	public static TypeSpec getMapperSpec(Collection<Graph> graphs, String mapperName) {
+	static TypeSpec getMapperSpec(Collection<Graph> graphs, String mapperName) {
 		Map<String, Integer> moduleMapper = getModuleMapper(graphs);
+		AnnotationSpec suppresAnnotation = AnnotationSpec.builder(SuppressWarnings.class)
+			.addMember("value", "$S", "unchecked")
+			.build();
 		return TypeSpec.classBuilder(mapperName)
-				.addAnnotation(AnnotationSpec.builder(SuppressWarnings.class).addMember("value", "$S", "unchecked").build())
-				.addModifiers(PUBLIC, FINAL)
-				.addSuperinterface(MapperProvider.class)
-				.addField(ParameterizedTypeName.get(Map.class, Class.class, Integer.class), MAPPER_FIELD, PRIVATE, FINAL)
-				.addMethod(getConstructor())
-				.addMethod(getMapperInitializerMethod(moduleMapper))
-				.addMethod(getModuleMapperMethod(moduleMapper))
-				.build();
+			.addAnnotation(suppresAnnotation)
+			.addModifiers(PUBLIC, FINAL)
+			.addSuperinterface(MapperProvider.class)
+			.addField(ParameterizedTypeName.get(Map.class, Class.class, Integer.class), MAPPER_FIELD, PRIVATE, FINAL)
+			.addMethod(getConstructor())
+			.addMethod(getMapperInitializerMethod(moduleMapper))
+			.addMethod(getModuleMapperMethod(moduleMapper))
+			.build();
 	}
 
 	private static Map<String, Integer> getModuleMapper(Collection<Graph> graphs) {
@@ -47,16 +50,17 @@ class MapperSpec {
 
 	private static MethodSpec getConstructor() {
 		return MethodSpec.constructorBuilder()
-				.addModifiers(PUBLIC)
-				.addStatement("this.$L = new $T()", MAPPER_FIELD, HashMap.class)
-				.addStatement("$L()", MAPPER_INIT_METHOD)
-				.build();
+			.addModifiers(PUBLIC)
+			.addStatement("this.$L = new $T()", MAPPER_FIELD, HashMap.class)
+			.addStatement("$L()", MAPPER_INIT_METHOD)
+			.build();
 	}
 
 	private static MethodSpec getMapperInitializerMethod(Map<String, Integer> moduleMapper) {
 		MethodSpec.Builder builder = MethodSpec.methodBuilder(MAPPER_INIT_METHOD);
 		for (Map.Entry<String, Integer> entry : moduleMapper.entrySet()) {
-			builder.addStatement("$L.put($T.class, $L)", MAPPER_FIELD, ClassName.bestGuess(entry.getKey()), entry.getValue());
+			ClassName className = ClassName.bestGuess(entry.getKey());
+			builder.addStatement("$L.put($T.class, $L)", MAPPER_FIELD, className, entry.getValue());
 		}
 		return builder.build();
 	}
@@ -64,26 +68,27 @@ class MapperSpec {
 	private static MethodSpec getModuleMapperMethod(Map<String, Integer> moduleMapper) {
 		String param = "module";
 		CodeBlock.Builder switchFlow = CodeBlock.builder()
-				.addStatement("$T key = $L != null ? $L.get($L.getClass()) : null", Integer.class, param, MAPPER_FIELD, param)
-				.beginControlFlow("if(key != null)")
-				.beginControlFlow("switch(key)");
+			.addStatement("$T key = $L != null ? $L.get($L.getClass()) : null", Integer.class, param, MAPPER_FIELD,
+						  param)
+			.beginControlFlow("if(key != null)")
+			.beginControlFlow("switch(key)");
 		for (Map.Entry<String, Integer> entry : moduleMapper.entrySet()) {
-			switchFlow
-					.add("case $L:\n\t", entry.getValue())
-					.addStatement("return new $T(($T)$L)",
-							ClassName.bestGuess(MapperNames.getCanonicalMapperModuleName(entry.getKey())),
-							ClassName.bestGuess(entry.getKey()),
-							"module");
+			switchFlow.add("case $L:\n\t", entry.getValue())
+				.addStatement("return new $T(($T)$L)",
+							  ClassName.bestGuess(MapperNames.getCanonicalMapperModuleName(entry.getKey())),
+							  ClassName.bestGuess(entry.getKey()), "module");
 		}
-		CodeBlock switchBlock = switchFlow.endControlFlow().endControlFlow().build();
+		CodeBlock switchBlock = switchFlow.endControlFlow()
+			.endControlFlow()
+			.build();
 		return MethodSpec.methodBuilder("getModuleMapper")
-				.addAnnotation(Override.class)
-				.addModifiers(PUBLIC)
-				.returns(ModuleMapper.class)
-				.addParameter(Object.class, param)
-				.addCode(switchBlock)
-				.addStatement("return null")
-				.build();
+			.addAnnotation(Override.class)
+			.addModifiers(PUBLIC)
+			.returns(ModuleMapper.class)
+			.addParameter(Object.class, param)
+			.addCode(switchBlock)
+			.addStatement("return null")
+			.build();
 	}
 
 }
