@@ -19,7 +19,7 @@ class KinjectEngine implements Injector {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "ConstantConditions" })
 	public <T> T inject(Class<T> tClass, String named) {
 		String key = getInternalKey(tClass, named);
 		Binder tBinder = binders.get(key);
