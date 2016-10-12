@@ -25,6 +25,7 @@ import static com.wokdsem.kinject.codegen.MapperNames.getFieldName;
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.PUBLIC;
+import static javax.lang.model.element.Modifier.STATIC;
 
 class ModuleMapperSpec {
 
@@ -36,6 +37,7 @@ class ModuleMapperSpec {
 			.addField(ParameterizedTypeName.get(Map.class, Class.class, Integer.class), "keys", PRIVATE, FINAL)
 			.addFields(getModuleFields(modules, graph))
 			.addMethod(getConstructor(modules, graph))
+			.addMethod(getFromModuleMethod(moduleMapperName, modules, graph))
 			.addMethod(getKeysInitializerMethod(depMapper))
 			.addMethod(getBinderMethod(modules, graph, depMapper))
 			.build();
@@ -54,7 +56,9 @@ class ModuleMapperSpec {
 		LinkedList<FieldSpec> fieldSpecs = new LinkedList<>();
 		fieldSpecs.add(getModuleField(modules.get(graph.canonicalModuleName)));
 		for (Include include : graph.includes) {
-			fieldSpecs.add(getModuleField(modules.get(include.canonicalModuleName)));
+			Module module = modules.get(include.canonicalModuleName);
+			FieldSpec moduleField = getModuleField(module);
+			fieldSpecs.add(moduleField);
 		}
 		return fieldSpecs;
 	}
@@ -62,16 +66,16 @@ class ModuleMapperSpec {
 	private static FieldSpec getModuleField(Module module) {
 		ClassName fieldClassName = ClassName.bestGuess(module.canonicalModuleName);
 		String fieldName = getFieldName(module.canonicalModuleName);
-		return FieldSpec.builder(fieldClassName, fieldName, PRIVATE, FINAL)
-			.build();
+		FieldSpec.Builder builder = FieldSpec.builder(fieldClassName, fieldName, PRIVATE, FINAL);
+		return builder.build();
 	}
 
 	private static MethodSpec getConstructor(Map<String, Module> modules, Graph graph) {
 		String initStatement = "this.$L = $L";
+		CodeBlock.Builder statementBuilder = CodeBlock.builder();
 		Module mainModule = modules.get(graph.canonicalModuleName);
 		String fieldName = getFieldName(mainModule.canonicalModuleName);
-		CodeBlock.Builder statementBuilder = CodeBlock.builder()
-			.addStatement(initStatement, fieldName, fieldName);
+		statementBuilder.addStatement(initStatement, fieldName, fieldName);
 		for (Include include : graph.includes) {
 			Reference includeReference = include.reference;
 			Module reference = modules.get(includeReference.canonicalModuleName);
@@ -81,11 +85,28 @@ class ModuleMapperSpec {
 			statementBuilder.addStatement(initStatement, var, value);
 		}
 		return MethodSpec.constructorBuilder()
-			.addModifiers(PUBLIC)
+			.addModifiers(PRIVATE)
 			.addParameter(ClassName.bestGuess(mainModule.canonicalModuleName), fieldName)
 			.addCode(statementBuilder.build())
 			.addStatement("this.keys = new $T<>()", HashMap.class)
-			.addStatement("initKeys()")
+			.build();
+	}
+
+	private static MethodSpec getFromModuleMethod(String className, Map<String, Module> modules, Graph graph) {
+		Module mainModule = modules.get(graph.canonicalModuleName);
+		ClassName parameterClassName = ClassName.bestGuess(mainModule.canonicalModuleName);
+		String parameterName = getFieldName(parameterClassName.simpleName());
+		String mapperName = "mapper";
+		CodeBlock statements = CodeBlock.builder()
+			.addStatement("$L $L = new $L($L)", className, mapperName, className, parameterName)
+			.addStatement("$L.$N()", mapperName, "initKeys")
+			.addStatement("return $L", mapperName)
+			.build();
+		return MethodSpec.methodBuilder("from")
+			.addModifiers(PUBLIC, STATIC)
+			.returns(ModuleMapper.class)
+			.addParameter(parameterClassName, parameterName)
+			.addCode(statements)
 			.build();
 	}
 

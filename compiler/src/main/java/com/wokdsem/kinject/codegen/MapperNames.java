@@ -3,16 +3,12 @@ package com.wokdsem.kinject.codegen;
 class MapperNames {
 
 	private static final String SEPARATOR = "$$";
-	private static final String MODULE_MAPPER = "%s" + SEPARATOR + "ModuleMapper";
+	private static final String MODULE_MAPPER = "%sMapper";
 	private static final String MODULE_ADAPTER = "%s" + SEPARATOR + "ModuleAdapter";
 	private static final String PROVIDE_ADAPTER = "bind%s" + SEPARATOR + "%s";
 
 	static String getSimpleMapperModuleName(String className) {
 		return String.format(MODULE_MAPPER, getSimpleName(className));
-	}
-
-	static String getCanonicalMapperModuleName(String className) {
-		return String.format(MODULE_MAPPER, className);
 	}
 
 	static String getSimpleAdapterModuleName(String className) {

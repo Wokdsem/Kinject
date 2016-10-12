@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.1'
     }
 }
 
@@ -11,6 +11,10 @@ allprojects {
     repositories {
         jcenter()
     }
+	tasks.withType(JavaCompile) {
+		sourceCompatibility = "1.7"
+		targetCompatibility = "1.7"
+	}
 }
 
 task clean(type: Delete) {

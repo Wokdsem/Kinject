@@ -13,21 +13,17 @@ import java.util.Map;
 import javax.annotation.Generated;
 import javax.annotation.processing.Filer;
 
-import static com.wokdsem.kinject.codegen.MapperSpec.getMapperSpec;
 import static com.wokdsem.kinject.codegen.ModuleAdapterSpec.getModuleAdapterSpec;
 import static com.wokdsem.kinject.codegen.ModuleMapperSpec.getModuleMapperSpec;
 
 class CodeGen {
 
 	private static final String CODE_GEN = CodeGen.class.getCanonicalName();
-	private static final String MAPPER_PACKAGE = "kinject";
-	private static final String MAPPER_NAME = "Mapper";
 
 	static void generateCode(Map<String, Module> modules, Collection<Graph> graphs,
 							 Filer filer) throws ProcessorException {
 		generateModuleAdapters(modules.values(), filer);
 		generateModuleMappers(modules, graphs, filer);
-		generateMapper(graphs, filer);
 	}
 
 	private static void generateModuleAdapters(Collection<Module> modules, Filer filer) throws ProcessorException {
@@ -48,11 +44,6 @@ class CodeGen {
 		}
 	}
 
-	private static void generateMapper(Collection<Graph> graphs, Filer filer) throws ProcessorException {
-		TypeSpec mapperClass = getMapperSpec(graphs, MAPPER_NAME);
-		writeClassFile(MAPPER_PACKAGE, mapperClass, filer);
-	}
-
 	private static String getPackageName(String baseName) {
 		return baseName.substring(0, baseName.lastIndexOf("."));
 	}
@@ -70,7 +61,7 @@ class CodeGen {
 				.build();
 			javaFile.writeTo(filer);
 		} catch (IOException e) {
-			throw new ProcessorException("Can not generate code file %s.%s.", packageName, classSpec.name);
+			throw new ProcessorException("Cannot generate code file %s.%s.", packageName, classSpec.name);
 		}
 	}
 
