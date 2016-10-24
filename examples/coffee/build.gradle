@@ -1,6 +1,8 @@
+plugins { id "net.ltgt.apt" version "0.9" }
 apply plugin: 'java'
+apply plugin: 'idea'
 
 dependencies {
-    compile project(':kinject'),
-            project(':compiler') // Use as provided scope
+	compile project(':kinject')
+	apt project(':compiler')
 }
