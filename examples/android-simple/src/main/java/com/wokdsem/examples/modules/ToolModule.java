@@ -13,10 +13,10 @@ import com.wokdsem.kinject.annotations.Provides;
 import static com.wokdsem.examples.DemoValues.APP_CONTEXT;
 
 @Module
-public class ToolModule {
+class ToolModule {
 
 	@Provides(singleton = true)
-	public Display provideDisplay(@Named(APP_CONTEXT) final Context context) {
+	Display provideDisplay(@Named(APP_CONTEXT) final Context context) {
 		return new Display() {
 			@Override
 			public void showMessage(String msg) {
@@ -26,7 +26,7 @@ public class ToolModule {
 	}
 
 	@Provides(singleton = true)
-	public Logger provideLogger() {
+	Logger provideLogger() {
 		return new Logger() {
 			@Override
 			public void log(String msg) {
