@@ -46,8 +46,9 @@ class ModulesRecover {
 
 	private static void assertModifiers(Element element) throws ProcessorException {
 		Set<Modifier> modifiers = element.getModifiers();
-		if (!modifiers.contains(Modifier.PUBLIC)) {
-			throw new ProcessorException("@Module(%s) must be a public class.", element.getSimpleName());
+		if (modifiers.contains(Modifier.PRIVATE) || modifiers.contains(Modifier.ABSTRACT)) {
+			throw new ProcessorException("@Module(%s) must not be a [private or abstract] class.",
+										 element.getSimpleName());
 		}
 	}
 
