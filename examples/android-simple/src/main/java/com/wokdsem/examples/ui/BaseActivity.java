@@ -16,7 +16,8 @@ abstract class BaseActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		injector = ((DemoApplication) getApplication()).injector;
-		injector.get(Logger.class).log("Kinject is ready!");
+		injector.get(Logger.class)
+			.log("Kinject is ready!");
 	}
 
 }

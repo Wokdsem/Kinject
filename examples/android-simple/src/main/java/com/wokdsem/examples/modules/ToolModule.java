@@ -20,7 +20,8 @@ class ToolModule {
 		return new Display() {
 			@Override
 			public void showMessage(String msg) {
-				Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, msg, Toast.LENGTH_SHORT)
+					.show();
 			}
 		};
 	}
