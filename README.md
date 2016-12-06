@@ -1,6 +1,8 @@
 
 # Kinject
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Kinject-green.svg?style=true)](https://android-arsenal.com/details/1/3931)
+
 A fast dependency injector for Android and Java.  
 For Kinject's main documentation, please see [the website.](http://wokdsem.github.io/Kinject/)
  
