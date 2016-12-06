@@ -1,6 +1,6 @@
 # Change Log 
 
-## Kinject 1.2.0 *(2016-12-04)*
+## Kinject 1.2.0 *(2016-12-06)*
 + Kinject instantiation: Init injector from ModuleMapper
 
 ## Kinject 1.1.0 *(2016-05-10)*

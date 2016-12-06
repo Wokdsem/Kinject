@@ -14,15 +14,27 @@ For Kinject's main documentation, please see [the website.](http://wokdsem.githu
 ### Download 
 You will need to include the `kinject-${kinject.version}.jar` in your application's runtime.  
 In order to activate code generation, you will need to include `kinject-compiler-${kinject.version}.jar`
-in your build at compile time. 
+in your build at compile time.
 
-In a gradle project, include the `kinject` artifact in the dependencies section of your
-`build.gradle` and the `kinject-compiler` artifact as `provided` dependency:
+#### Android Gradle
 
 ```groovy
 dependencies {
   compile  'com.wokdsem.kinject:kinject:${kinject.version}'
-  provided 'com.wokdsem.kinject:kinject-compiler:${kinject.version}'
+  annotationProcessor 'com.wokdsem.kinject:kinject-compiler:${kinject.version}'
+}
+```
+
+#### Java Gradle
+
+```groovy
+plugins {
+  id "net.ltgt.apt" version "0.9"
+}
+
+dependencies {
+  compile  'com.wokdsem.kinject:kinject:${kinject.version}'
+  apt 'com.wokdsem.kinject:kinject-compiler:${kinject.version}'
 }
 ```
 
