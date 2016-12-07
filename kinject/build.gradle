@@ -1,48 +1,49 @@
 plugins {
-    id "com.jfrog.bintray" version "1.4"
+	id "com.jfrog.bintray" version "1.4"
 }
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 dependencies {
-    compile 'javax.annotation:jsr250-api:1.0'
-    testCompile 'junit:junit:4.12'
+	compile 'javax.annotation:jsr250-api:1.0'
+	testCompile 'junit:junit:4.12',
+		'org.mockito:mockito-core:2.1.0'
 }
 
 publishing {
-    publications {
-        KPublication(MavenPublication) {
-            artifacts {
-                groupId 'com.wokdsem.kinject'
-                artifactId 'kinject'
-                version VERSION_NAME
-                from components.java
-                artifact sourcesJar
-            }
-        }
-    }
+	publications {
+		KPublication(MavenPublication) {
+			artifacts {
+				groupId 'com.wokdsem.kinject'
+				artifactId 'kinject'
+				version VERSION_NAME
+				from components.java
+				artifact sourcesJar
+			}
+		}
+	}
 }
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+	classifier = 'sources'
+	from sourceSets.main.allSource
 }
 
 bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-    publications = ['KPublication']
-    pkg {
-        repo = 'maven'
-        name = 'kinject'
-        desc = 'KINJECT - Android/Java Dependency Injector.'
-        labels = ['java', 'android']
-        licenses = ['Apache-2.0']
-        websiteUrl = 'http://wokdsem.github.io/Kinject/'
-        vcsUrl = 'https://github.com/Wokdsem/Kinject'
-        issueTrackerUrl = 'https://github.com/Wokdsem/Kinject/issues'
-        version {
-            name = VERSION_NAME + '-Release'
-        }
-    }
+	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+	publications = ['KPublication']
+	pkg {
+		repo = 'maven'
+		name = 'kinject'
+		desc = 'KINJECT - Android/Java Dependency Injector.'
+		labels = ['java', 'android']
+		licenses = ['Apache-2.0']
+		websiteUrl = 'http://wokdsem.github.io/Kinject/'
+		vcsUrl = 'https://github.com/Wokdsem/Kinject'
+		issueTrackerUrl = 'https://github.com/Wokdsem/Kinject/issues'
+		version {
+			name = VERSION_NAME + '-Release'
+		}
+	}
 }

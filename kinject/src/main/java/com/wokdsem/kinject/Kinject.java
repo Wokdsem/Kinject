@@ -2,13 +2,14 @@ package com.wokdsem.kinject;
 
 import com.wokdsem.kinject.core.Injector;
 import com.wokdsem.kinject.core.KinjectRunner;
+import com.wokdsem.kinject.core.ModuleMapper;
 
 import static com.wokdsem.kinject.core.KinjectValues.DEFAULT_NAMED;
 
 public class Kinject {
 
-	public static Kinject instantiate(Object module) {
-		Injector injector = KinjectRunner.initializeInjector(module);
+	public static Kinject instantiate(ModuleMapper mapper) {
+		Injector injector = KinjectRunner.initializeInjector(mapper);
 		return new Kinject(injector);
 	}
 

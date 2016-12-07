@@ -1,20 +1,18 @@
 package com.wokdsem.examples;
 
 import com.wokdsem.examples.modules.CoffeeMakerModule;
+import com.wokdsem.examples.modules.CoffeeMakerModuleMapper;
 import com.wokdsem.kinject.Kinject;
 
 public class CoffeeMaker {
 
 	public static void main(String... args) {
-
 		// Create injector
-		CoffeeMakerModule module = new CoffeeMakerModule(); // Root graph module
-		Kinject kinject = Kinject.instantiate(module);      // Instantiate injector
-
+		CoffeeMakerModule module = new CoffeeMakerModule();                                // Root graph module
+		Kinject kinject = Kinject.instantiate(CoffeeMakerModuleMapper.from(module));      // Instantiate injector
 		// Injecting
-		CoffeeMaker coffeeMaker = kinject.get(CoffeeMaker.class); // Inject dependency
+		CoffeeMaker coffeeMaker = kinject.get(CoffeeMaker.class);						// Inject dependency
 		coffeeMaker.makeCoffee();
-
 	}
 
 	private final Heater heater;
@@ -25,7 +23,7 @@ public class CoffeeMaker {
 		this.pump = pump;
 	}
 
-	public void makeCoffee() {
+	private void makeCoffee() {
 		heater.heat();
 		pump.pump();
 		System.out.println(" [_]P coffee! ");

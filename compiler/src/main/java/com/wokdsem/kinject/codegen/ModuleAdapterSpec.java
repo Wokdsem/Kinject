@@ -22,12 +22,12 @@ import static javax.lang.model.element.Modifier.STATIC;
 
 class ModuleAdapterSpec {
 
-	public static TypeSpec getModuleAdapterSpec(Module module, String adapterName) {
+	static TypeSpec getModuleAdapterSpec(Module module, String adapterName) {
 		List<MethodSpec> methods = getMethods(module.canonicalModuleName, module.provides);
 		return TypeSpec.classBuilder(adapterName)
-				.addModifiers(PUBLIC, FINAL)
-				.addMethods(methods)
-				.build();
+			.addModifiers(PUBLIC, FINAL)
+			.addMethods(methods)
+			.build();
 	}
 
 	private static List<MethodSpec> getMethods(String moduleName, List<Provide> provides) {
@@ -36,13 +36,13 @@ class ModuleAdapterSpec {
 			ClassName className = ClassName.bestGuess(provide.canonicalProvideClassName);
 			String methodName = MapperNames.getBindMethodName(provide.canonicalProvideClassName, provide.named);
 			MethodSpec.Builder builder = MethodSpec.methodBuilder(methodName)
-					.addModifiers(PUBLIC, STATIC)
-					.returns(ParameterizedTypeName.get(ClassName.get(Binder.class), className))
-					.addParameter(ClassName.bestGuess(moduleName), "module", FINAL)
-					.addParameter(Injector.class, "injector", FINAL)
-					.addStatement("return new $T($L)",
-							ParameterizedTypeName.get(ClassName.get(provide.isSingleton ? SingletonBinder.class : SimpleBinder.class), className),
-							addInternalStatement(provide));
+				.addModifiers(PUBLIC, STATIC)
+				.returns(ParameterizedTypeName.get(ClassName.get(Binder.class), className))
+				.addParameter(ClassName.bestGuess(moduleName), "module", FINAL)
+				.addParameter(Injector.class, "injector", FINAL)
+				.addStatement("return new $T($L)", ParameterizedTypeName.get(
+					ClassName.get(provide.isSingleton ? SingletonBinder.class : SimpleBinder.class), className),
+							  addInternalStatement(provide));
 			methods.add(builder.build());
 		}
 		return methods;
@@ -55,20 +55,26 @@ class ModuleAdapterSpec {
 		StringBuilder code = new StringBuilder("return module.$L(");
 		for (int i = 0; i < size; i++) {
 			Dependency dependency = dependencies.get(i);
-			if (i > 0) code.append(", ");
-			code.append("\ninjector.inject(").append(dependency.canonicalClassName).append(".class, \"").append(dependency.named).append("\")");
+			if (i > 0) {
+				code.append(", ");
+			}
+			code.append("\ninjector.inject(")
+				.append(dependency.canonicalClassName)
+				.append(".class, \"")
+				.append(dependency.named)
+				.append("\")");
 		}
-		String statement = code.append(")").toString();
-
+		String statement = code.append(")")
+			.toString();
 		return TypeSpec.anonymousClassBuilder("")
-				.addSuperinterface(ParameterizedTypeName.get(ClassName.get(Provider.class), className))
-				.addMethod(MethodSpec.methodBuilder("provide")
-						.addAnnotation(Override.class)
-						.addModifiers(PUBLIC)
-						.returns(className)
-						.addStatement(statement, provide.reference.method)
-						.build())
-				.build();
+			.addSuperinterface(ParameterizedTypeName.get(ClassName.get(Provider.class), className))
+			.addMethod(MethodSpec.methodBuilder("provide")
+						   .addAnnotation(Override.class)
+						   .addModifiers(PUBLIC)
+						   .returns(className)
+						   .addStatement(statement, provide.reference.method)
+						   .build())
+			.build();
 	}
 
 }

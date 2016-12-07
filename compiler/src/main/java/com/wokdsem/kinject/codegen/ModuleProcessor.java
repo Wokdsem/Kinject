@@ -34,7 +34,8 @@ public class ModuleProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		try {
-			Set<? extends Element> annotatedModules = roundEnv.getElementsAnnotatedWith(com.wokdsem.kinject.annotations.Module.class);
+			Class<com.wokdsem.kinject.annotations.Module> moduleClass = com.wokdsem.kinject.annotations.Module.class;
+			Set<? extends Element> annotatedModules = roundEnv.getElementsAnnotatedWith(moduleClass);
 			if (!annotatedModules.isEmpty()) {
 				Map<String, Module> modules = ModulesRecover.getModules(annotatedModules);
 				Collection<Graph> graphs = GraphBuilder.buildGraphs(modules);

@@ -12,17 +12,17 @@ import com.wokdsem.kinject.annotations.Provides;
 public class CoffeeMakerModule {
 
 	@Includes
-	public HeaterModule includeHeaterModule() {
+	HeaterModule includeHeaterModule() {
 		return new HeaterModule();
 	}
 
 	@Provides()
-	public Pump providePump(Heater heater) {
+	Pump providePump(Heater heater) {
 		return new Thermosiphon(heater);
 	}
 
 	@Provides(singleton = true)
-	public CoffeeMaker provideCoffeeMaker(Heater heater, Pump pump) {
+	CoffeeMaker provideCoffeeMaker(Heater heater, Pump pump) {
 		return new CoffeeMaker(heater, pump);
 	}
 

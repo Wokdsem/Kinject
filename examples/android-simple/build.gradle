@@ -2,16 +2,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.wokdsem.examples"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         debug {
             minifyEnabled true
@@ -22,14 +23,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1',
-            'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:24.2.1',
+            'com.android.support:design:24.2.1'
 
     compile project(':kinject')
-    provided project(':compiler')
+    annotationProcessor project(':compiler')
 
     testCompile 'junit:junit:4.12'
 }

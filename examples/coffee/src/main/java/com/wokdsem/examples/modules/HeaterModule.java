@@ -6,10 +6,10 @@ import com.wokdsem.kinject.annotations.Module;
 import com.wokdsem.kinject.annotations.Provides;
 
 @Module
-public class HeaterModule {
+class HeaterModule {
 
 	@Provides(singleton = true)
-	public Heater provideHeater() {
+	Heater provideHeater() {
 		return new ElectricalHeater();
 	}
 

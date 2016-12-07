@@ -15,7 +15,9 @@ public class SingletonBinder<T> implements Binder<T> {
 	public final T bind() {
 		if (t == null) {
 			synchronized (this) {
-				if (t == null) t = provider.provide();
+				if (t == null) {
+					t = provider.provide();
+				}
 			}
 		}
 		return t;

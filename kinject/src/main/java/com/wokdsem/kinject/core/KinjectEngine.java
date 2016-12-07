@@ -2,7 +2,6 @@ package com.wokdsem.kinject.core;
 
 import com.wokdsem.kinject.core.binder.Binder;
 import com.wokdsem.kinject.support.Locker;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,15 +11,16 @@ class KinjectEngine implements Injector {
 	private final Locker<String> locker;
 	private final ModuleMapper mapper;
 
-	public KinjectEngine(ModuleMapper mapper) {
+	KinjectEngine(ModuleMapper mapper) {
 		binders = new HashMap<>();
 		locker = new Locker<>();
 		this.mapper = mapper;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "ConstantConditions" })
 	public <T> T inject(Class<T> tClass, String named) {
+		assertArguments(tClass, named);
 		String key = getInternalKey(tClass, named);
 		Binder tBinder = binders.get(key);
 		if (tBinder == null) {
@@ -35,12 +35,30 @@ class KinjectEngine implements Injector {
 			} catch (InterruptedException ignored) {
 			}
 		}
-		if (tBinder == null) throw new IllegalArgumentException(String.format("Kinject [ERROR] - %s is not a valid injectable.", key));
+		assertBinder(tBinder, key);
 		return (T) tBinder.bind();
 	}
 
 	private static String getInternalKey(Class tClass, String named) {
 		return String.format("%s@%s", tClass.getCanonicalName(), named);
+	}
+
+	private static void assertArguments(Class<?> tClass, String named) {
+		if (tClass == null || named == null) {
+			onArgumentError("Trying to inject with a null class or named argument.");
+		}
+	}
+
+	private static void assertBinder(Binder binder, String key) {
+		if (binder == null) {
+			String errMsg = String.format("%s is not a valid injectable.", key);
+			onArgumentError(errMsg);
+		}
+	}
+
+	private static void onArgumentError(String errMsg) {
+		String illegalErrorMsg = String.format("Kinject [ERROR] - %s", errMsg);
+		throw new IllegalArgumentException(illegalErrorMsg);
 	}
 
 }

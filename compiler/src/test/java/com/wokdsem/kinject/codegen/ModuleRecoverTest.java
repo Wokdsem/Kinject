@@ -26,8 +26,18 @@ public class ModuleRecoverTest {
 		String module = "package test;" +
 				"import com.wokdsem.kinject.annotations.Module;" +
 				"@Module " +
-				"class M {" +
+				"private class M {" +
 				"}";
+		assertCompileFail("test.M", module);
+	}
+
+	@Test
+	public void moduleAbstractModifier() {
+		String module = "package test;" +
+						"import com.wokdsem.kinject.annotations.Module;" +
+						"@Module " +
+						"abstract class M {" +
+						"}";
 		assertCompileFail("test.M", module);
 	}
 

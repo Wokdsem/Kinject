@@ -19,12 +19,12 @@ public class AppModule {
 	}
 
 	@Includes
-	public ToolModule includeToolModule() {
+	ToolModule includeToolModule() {
 		return new ToolModule();
 	}
 
 	@Provides(named = APP_CONTEXT)
-	public Context provideApplicationContext() {
+	Context provideApplicationContext() {
 		return application;
 	}
 
