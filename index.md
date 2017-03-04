@@ -163,7 +163,7 @@ The flow is simple, **define your dependencies and inject them!**
 ### Installation
 
 * ***Status***
-  * Release version: **1.2.0**
+  * Release version: **1.2.1**
 
 * ***Download***
 
@@ -179,8 +179,8 @@ The flow is simple, **define your dependencies and inject them!**
           }
       ```
   * You can also find downloadable *.jar*s on jCenter.
-[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.2.0/kinject-1.2.0.jar) /
-[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.2.0/kinject-compiler-1.2.0.jar).
+[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.2.1/kinject-1.2.1.jar) /
+[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.2.1/kinject-compiler-1.2.1.jar).
 
 
 ### License 
