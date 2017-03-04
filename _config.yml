@@ -1,0 +1,8 @@
+title: Kinject
+description: 
+google_analytics: UA-73513006-1
+show_downloads: true
+theme: jekyll-theme-architect
+
+gems:
+  - jekyll-mentions
