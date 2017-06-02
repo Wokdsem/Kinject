@@ -30,9 +30,10 @@ class KinjectEngine implements Injector {
 					tBinder = mapper.buildBinder(tClass, named, this);
 					binders.put(key, tBinder);
 				}
-				blocker.release(key);
 			} catch (InterruptedException e) {
 				throw new IllegalStateException(e);
+			} finally {
+				blocker.release(key);
 			}
 		}
 		assertBinder(tBinder, key);

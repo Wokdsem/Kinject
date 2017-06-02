@@ -9,7 +9,7 @@ For Kinject's main documentation, please see [the website.](http://wokdsem.githu
 ## Installation
 
 ### Status
-* ***Release version:*** **1.2.1**
+* ***Release version:*** **1.2.2**
 
 ### Download 
 You will need to include the `kinject-${kinject.version}.jar` in your application's runtime.  
@@ -39,8 +39,8 @@ dependencies {
 ```
 
 You can also find downloadable *.jar*s on jCenter.
-[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.2.1/kinject-1.2.1.jar) /
-[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.2.1/kinject-compiler-1.2.1.jar).
+[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.2.2/kinject-1.2.2.jar) /
+[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.2.2/kinject-compiler-1.2.2.jar).
 
 ##License
 

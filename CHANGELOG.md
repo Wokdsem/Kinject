@@ -1,5 +1,8 @@
 # Change Log 
 
+## Kinject 1.2.2 *(2017-05-30)*
++ Fix: Possible interlock when injecting by first time from on an interrupted thread 
+
 ## Kinject 1.2.1 *(2017-03-04)*
 + Internal synchronization improve
 
