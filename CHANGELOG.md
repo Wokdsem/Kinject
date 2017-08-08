@@ -1,5 +1,9 @@
 # Change Log 
 
+## Kinject 1.3.0 *(2017-08-08)
++ New Scopes system
++ Added Weak scope
+
 ## Kinject 1.2.2 *(2017-05-30)*
 + Fix: Possible interlock when injecting by first time from on an interrupted thread 
 
