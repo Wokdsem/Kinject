@@ -21,7 +21,7 @@ The flow is simple, **define your dependencies and inject them!**
 
 * ***Defining dependencies***
 
-    Use an ```@Provides``` annotated method to define a dependency. The method's return type define which dependency it satisfies.  
+    Use a ```@Provides``` annotated method to define a dependency. The method's return type define which dependency it satisfies.  
     For example, ```provideHeater()``` is invoked whenever a ```Heater``` is required:
 
     ```java
@@ -105,10 +105,14 @@ The flow is simple, **define your dependencies and inject them!**
 
 * ***Aditional features***
 
-  * **Singleton** You can set ```singleton = true``` in ```@Provides``` annotation, so the injector instance will use a single instance of the dependency for all of its clients. 
- 
+  * **Scope** Kinject provides the following scopes:
+  
+    + *NONE* A new instance is created when the dependency is requested. This is the default behavior when no scope is defined. 
+    + *SINGLETON* The injector provides the same instance for all injection requests of the dependency.
+    + *WEAK_SINGLETON* While a previous dependency instance is still referenced, then, like a singleton, the same instance is shared. In other cases, a new instance is created. 
+
   ```java
-  @Provides(singleton = true)
+  @Provides(scope = SINGLETON)
   public Heater provideHeater() {
     return new ElectricalHeater();
   }
@@ -163,7 +167,7 @@ The flow is simple, **define your dependencies and inject them!**
 ### Installation
 
 * ***Status***
-  * Release version: **1.2.2**
+  * Release version: **1.3.0**
 
 * ***Download***
 
@@ -179,13 +183,13 @@ The flow is simple, **define your dependencies and inject them!**
           }
       ```
   * You can also find downloadable *.jar*s on jCenter.
-[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.2.2/kinject-1.2.2.jar) /
-[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.2.2/kinject-compiler-1.2.2.jar).
+[Kinject](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject/1.3.0/kinject-1.3.0.jar) /
+[Kinject-Compiler](https://bintray.com/artifact/download/wokdsem/maven/com/wokdsem/kinject/kinject-compiler/1.3.0/kinject-compiler-1.3.0.jar).
 
 
 ### License 
 
-    Copyright 2016 Wokdsem
+    Copyright 2017 Wokdsem
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
