@@ -8,22 +8,24 @@ import com.wokdsem.kinject.annotations.Includes;
 import com.wokdsem.kinject.annotations.Module;
 import com.wokdsem.kinject.annotations.Provides;
 
+import static com.wokdsem.kinject.annotations.Provides.Scope.SINGLETON;
+
 @Module(completed = true)
 public class CoffeeMakerModule {
-
+	
 	@Includes
 	HeaterModule includeHeaterModule() {
 		return new HeaterModule();
 	}
-
+	
 	@Provides()
 	Pump providePump(Heater heater) {
 		return new Thermosiphon(heater);
 	}
-
-	@Provides(singleton = true)
+	
+	@Provides(scope = SINGLETON)
 	CoffeeMaker provideCoffeeMaker(Heater heater, Pump pump) {
 		return new CoffeeMaker(heater, pump);
 	}
-
+	
 }
